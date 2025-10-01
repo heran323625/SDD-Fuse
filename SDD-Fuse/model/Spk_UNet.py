@@ -6,8 +6,8 @@ from torch import nn
 from torch.nn import init
 from torch.nn import functional as F
 from spikingjelly.activation_based import functional, surrogate
-# from spikingjelly.activation_based.neuron import LIFNode as LIFNode
-from spikingjelly.activation_based.neuron import IFNode as IFNode
+from spikingjelly.activation_based.neuron import LIFNode as LIFNode
+# from spikingjelly.activation_based.neuron import IFNode as IFNode
 from timm.layers import DropPath, to_2tuple, trunc_normal_
 
 import os
@@ -821,3 +821,4 @@ if __name__ == '__main__':
         model_size += param.data.nelement()
     print('Model params: %.2f M' % (model_size / 1024 / 1024))
     functional.reset_net(model)
+
