@@ -94,7 +94,8 @@ class Spk_DownSample(nn.Module):
         super().__init__()
         self.conv = nn.Conv2d(in_ch, in_ch, 3, stride=2, padding=1)
         self.bn = nn.BatchNorm2d(in_ch)
-        self.neuron = IFNode(surrogate_function=surrogate.ATan())
+        # self.neuron = IFNode(surrogate_function=surrogate.ATan())
+        self.neuron = LIFNode(surrogate_function=surrogate.ATan(), tau=10.0, v_threshold=0.5, v_reset=None, detach_reset=True)
         functional.set_step_mode(self, step_mode='m')
         #functional.set_backend(self, backend='cupy')
         self.initialize()
@@ -119,7 +120,8 @@ class Spk_UpSample(nn.Module):
         super().__init__()
         self.conv = nn.Conv2d(in_ch, in_ch, 3, stride=1, padding=1)
         self.bn = nn.BatchNorm2d(in_ch)
-        self.neuron = IFNode(surrogate_function=surrogate.ATan())
+        # self.neuron = IFNode(surrogate_function=surrogate.ATan())
+        self.neuron = LIFNode(surrogate_function=surrogate.ATan(), tau=10.0, v_threshold=0.5, v_reset=None, detach_reset=True)
         functional.set_step_mode(self, step_mode='m')
         #functional.set_backend(self, backend='cupy')
         self.initialize()
@@ -148,11 +150,13 @@ class Spk_ResBlock(nn.Module):
             Swish(),
             nn.Linear(tdim, out_ch),
         )
-        self.neuron1 = IFNode(surrogate_function=surrogate.ATan())
+        # self.neuron1 = IFNode(surrogate_function=surrogate.ATan())
+        self.neuron1 = LIFNode(surrogate_function=surrogate.ATan(), tau=10.0, v_threshold=0.5, v_reset=None, detach_reset=True)
         self.conv1 = nn.Conv2d(in_ch, out_ch, 3, stride=1, padding=1)
         self.bn1 = nn.BatchNorm2d(out_ch)
 
-        self.neuron2 = IFNode(surrogate_function=surrogate.ATan())
+        # self.neuron2 = IFNode(surrogate_function=surrogate.ATan())
+        self.neuron2 = LIFNode(surrogate_function=surrogate.ATan(), tau=10.0, v_threshold=0.5, v_reset=None, detach_reset=True)
         self.conv2 = nn.Conv2d(out_ch, out_ch, 3, stride=1, padding=1)
         self.bn2 = nn.BatchNorm2d(out_ch)
 
@@ -286,7 +290,8 @@ class KANLinear(torch.nn.Module):
         self.out_features = out_features
         self.grid_size = grid_size
         self.spline_order = spline_order
-        self.neuron = IFNode(surrogate_function=surrogate.ATan())
+        # self.neuron = IFNode(surrogate_function=surrogate.ATan())
+        self.neuron = LIFNode(surrogate_function=surrogate.ATan(), tau=10.0, v_threshold=0.5, v_reset=None, detach_reset=True)
         functional.set_step_mode(self, step_mode='m')
 
         h = (grid_range[1] - grid_range[0]) / grid_size
@@ -637,7 +642,8 @@ class Spk_UNet(nn.Module):
         self.conv = nn.Conv2d(img_ch, ch, kernel_size=3, stride=1, padding=1)
         self.bn = nn.BatchNorm2d(ch)
 
-        self.neuron = IFNode(surrogate_function=surrogate.ATan())
+        # self.neuron = IFNode(surrogate_function=surrogate.ATan())
+        self.neuron = LIFNode(surrogate_function=surrogate.ATan(), tau=10.0, v_threshold=0.5, v_reset=None, detach_reset=True)
         self.conv_identity = nn.Conv2d(ch, ch, kernel_size=3, stride=1, padding=1)
         self.bn_identity = nn.BatchNorm2d(ch)
 
@@ -821,4 +827,5 @@ if __name__ == '__main__':
         model_size += param.data.nelement()
     print('Model params: %.2f M' % (model_size / 1024 / 1024))
     functional.reset_net(model)
+
 
