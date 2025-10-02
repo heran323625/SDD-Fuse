@@ -797,6 +797,8 @@ class Spk_UNet(nn.Module):
         h_temp = self.last_bn(h_temp.flatten(0,1)).reshape(T, B, -1, H, W).contiguous()
         h = self.swish(h_temp) + h  # [ T, B, C, H, W]
 
+        # Using an exponentially decayed weighting strategy
+        # the membrane potential sequence unfolded over time steps is compressed into static fused features
         h = self.membrane_output_layer(h)
 
 
@@ -827,5 +829,6 @@ if __name__ == '__main__':
         model_size += param.data.nelement()
     print('Model params: %.2f M' % (model_size / 1024 / 1024))
     functional.reset_net(model)
+
 
 
