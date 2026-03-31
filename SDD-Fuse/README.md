@@ -91,7 +91,14 @@ CUDA_VISIBLE_DEVICES=0 python main.py \
 If you find our work useful, please consider citing:
 
 ```
-
+@article{di2026sdd,
+  title={SDD-Fuse: A Multi-modality Image Fusion Framework Based on the Spiking Diffusion Fusion Model},
+  author={Di, Jing and Wang, Heran and Lian, Jing and Shi, Shuhui and Liu, Jizhao},
+  journal={Knowledge-Based Systems},
+  pages={115861},
+  year={2026},
+  publisher={Elsevier}
+}
 ```
 
 
